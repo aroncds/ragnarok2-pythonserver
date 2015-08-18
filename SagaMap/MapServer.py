@@ -1,22 +1,18 @@
 import socket
-import cffi
-import time
 import thread
-import LoginSession
 
-# Variables
-host = ""
-port = 3011
+import settings
+import LoginSession
 
 print "Comecando a inicializar o servidor"
 
 def startServer():
-	LoginSession.host = "127.0.0.1"
-	LoginSession.port = 6000
+	LoginSession.host = settings.LOGIN_HOST
+	LoginSession.port = settings.LOGIN_PORT
 	thread.start_new_thread(LoginSession.startConnectionLoginServer, ())
 
 	tcp = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	tcp.bind((host,port))
+	tcp.bind((settings.HOST, settings.PORT))
 	tcp.listen(1)
 
 	while 1:
