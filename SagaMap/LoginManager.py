@@ -1,7 +1,7 @@
 import Encryption
 
 from Packets.Login.Set import (
-	AskGUID, SendKey as ServerKey, Identify, MapPong
+	SendKey as ServerKey, Identify, MapPong
 )
 
 StaticKey = [
@@ -9,7 +9,7 @@ StaticKey = [
 	0xB8, 0xA3, 0xB0, 0xDA, 0xC1, 0xF6, 0x24, 0x00
 ]
 
-def OnSendKey(data):
+def OnSendKey(data, client):
 	key = data.getKey()
 
 	serverPck = ServerKey.SendKey()
@@ -17,9 +17,10 @@ def OnSendKey(data):
 	serverPck.setColumn(4)
 	serverPck.setRounds(10)
 	serverPck.setDirection(2)
-	return serverPck
+	
+	client.sendPacket(serverPck)
 
-def OnIdentify(data):
+def OnIdentify(data, client):
 	import settings
 	pck = Identify.Identify()
 	pck.setLoginPassword(settings.LOGIN_PASSWORD)
@@ -27,14 +28,13 @@ def OnIdentify(data):
 	pck.setHostedMaps(settings.HOSTED_MAPS)
 	pck.setIP(settings.HOST)
 	pck.setPort(settings.PORT)
-	return pck
 
-def OnMapPing(data):
+	client.sendPacket(pck)
+
+def OnMapPing(data, client):
 	pck = MapPong.MapPong()
 	pck.setSessionID(0)
-	return pck
+	client.sendPacket(pck)
 
-def OnLoginIdentify(data):
-	print "dasd"
-	
-	#sessionId = data.getPacketSessionId()
+def OnIdentAnswer(data, client):
+	erro = data.getError()

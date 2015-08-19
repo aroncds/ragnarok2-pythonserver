@@ -65,22 +65,23 @@ class Packet(object):
 	def setUint(self, offset, value):
 		ddata = struct.pack("H", value)
 		ddata = bytearray(ddata)
-		self.data[offset] = ddata[1]
-		self.data[offset+1] = ddata[0]
+		self.data[offset] = ddata[0]
+		self.data[offset+1] = ddata[1]
 
 	def setInt(self, offset, value):
 		ddata = struct.pack("i", value)
 		ddata = bytearray(ddata)
-		self.data[offset] = ddata[3]
-		self.data[offset+1] = ddata[2]
-		self.data[offset+2] = ddata[1]
-		self.data[offset+3] = ddata[0]
+		self.data[offset] = ddata[0]
+		self.data[offset+1] = ddata[1]
+		self.data[offset+2] = ddata[2]
+		self.data[offset+3] = ddata[3]
 
 	def setString(self, data, offset, length):
 		byte = str.encode(data, "UTF-16le")
 		self.setBytes(byte, offset, length)
 
 	def setBytes(self, data, offset, length):
-		length = length if len(data) >= length else len(data)
+		le = len(data)
+		length = length if le >= length else le
 		for i in range(length):
 			self.data[offset + i] = data[i]

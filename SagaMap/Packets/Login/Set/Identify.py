@@ -19,7 +19,7 @@ class Identify(Packet):
 			self.setInt(108 + (4 * i), list[i])
 
 	def setIP(self, ip):
-		self.setBytes(ip, 228, 14)
+		self.setString(ip, 228, 28)
 
 	def setPort(self, port):
 		self.setUint(258, port)

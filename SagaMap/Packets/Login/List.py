@@ -1,5 +1,5 @@
 from Packets.Login.Get import (
-	SendKey, Identify as ClientIdentify
+	SendKey, IdentAnswer
 )
 
 from Packet import Packet
@@ -19,7 +19,7 @@ dict_packet = {
 		'class': Packet
 	},
 	0xFF01:{
-		'function': OnLoginIdentify,
-		'class': ClientIdentify.Identify
+		'function': OnIdentAnswer,
+		'class': IdentAnswer.IdentAnswer
 	}
 }
