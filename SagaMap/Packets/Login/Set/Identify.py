@@ -22,4 +22,4 @@ class Identify(Packet):
 		self.setString(ip, 228, 28)
 
 	def setPort(self, port):
-		self.setUint(258, port)
+		self.setUShort(258, port)

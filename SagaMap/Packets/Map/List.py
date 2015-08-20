@@ -1,8 +1,15 @@
 from Packet import Packet
 
+from Client.Map import MapClient
+
+from Packets.Map.Gateway.Identify import GatewayIdentify
+from Packets.Map.World import List as WorldList
+
 dict_packets = {
 	0x010C:{
-		'function':'',
-		'class': '',
-	}
+		'function': MapClient.OnIdentify,
+		'class': GatewayIdentify,
+	},
 }
+
+dict_packets.update(WorldList.dict_packets)

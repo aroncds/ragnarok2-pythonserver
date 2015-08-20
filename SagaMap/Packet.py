@@ -13,8 +13,8 @@ class Packet(object):
 	sessionID = 0
 
 	def getSessionID(self):
-		dsession = reverseByteNumber(self.data, 2, 6)
-		self.sessionID = struct.unpack("I", dsession)[0]
+		self.sessionID = struct.unpack("I", self.data[2:6])[0]
+		print "SessionID: " + str(self.sessionID)
 		return self.sessionID
 
 	def setSessionID(self, value):
@@ -24,6 +24,7 @@ class Packet(object):
 		self.data[3] = dbytes[1]
 		self.data[4] = dbytes[2]
 		self.data[5] = dbytes[3]
+		print self.data[2:6]
 
 	def setLength(self):
 		dbytes = struct.pack("H", self.size)
@@ -47,7 +48,7 @@ class Packet(object):
 		self.data[6] = did[0]
 		self.data[7] = did[1]
 
-	def getUint(self, offset):
+	def getUInt(self, offset):
 		ddata = reverseByteNumber(self.data, offset, offset+4)
 		ddata = bytearray(ddata)
 		return struct.unpack("I", ddata)[0]
@@ -62,11 +63,32 @@ class Packet(object):
 		ddata = bytearray(ddata)
 		return struct.unpack("f", ddata)[0]
 
-	def setUint(self, offset, value):
+	def setFloat(self, offset, value):
+		ddata = struct.pack("f", value)
+		ddata = bytearray(ddata)
+		self.data[offset] = ddata[0]
+		self.data[offset+1] = ddata[1]
+		self.data[offset+2] = ddata[2]
+		self.data[offset+3] = ddata[3]
+
+	def setUShort(self, offset, value):
 		ddata = struct.pack("H", value)
 		ddata = bytearray(ddata)
 		self.data[offset] = ddata[0]
 		self.data[offset+1] = ddata[1]
+
+	def getUShort(self, offset):
+		ddata = reverseByteNumber(self.data, offset, offset+2)
+		ddata = bytearray(ddata)
+		return struct.unpack("H", ddata)
+
+	def setUInt(self, offset, value):
+		ddata = struct.pack("I", value)
+		ddata = bytearray(ddata)
+		self.data[offset] = ddata[0]
+		self.data[offset+1] = ddata[1]
+		self.data[offset+2] = ddata[2]
+		self.data[offset+3] = ddata[3]
 
 	def setInt(self, offset, value):
 		ddata = struct.pack("i", value)
