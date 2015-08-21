@@ -6,7 +6,7 @@ def OnPacketData(id, data, client, dict_packet):
 		packet_class.data = data
 		packet = dict_packet[id]['function'](packet_class, client)
 	else:
-		print "Unknow package ID: " + id + " \n with data length: " + str(len(data))
+		print "Unknow package ID: " + str(id) + " \n with data length: " + str(len(data))
 
 
 class Client(object):
@@ -20,6 +20,7 @@ class Client(object):
 		try:
 			if(self.connection):
 				pck.setSessionID(self.sessionID)
+				print pck.data
 				self.connection.send(bytearray(pck.data))
 		except:
 			print "Ocorreu um erro ao enviar o pacote"
