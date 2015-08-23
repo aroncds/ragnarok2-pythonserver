@@ -20,7 +20,6 @@ class Client(object):
 		try:
 			if(self.connection):
 				pck.setSessionID(self.sessionID)
-				print pck.data
 				self.connection.send(bytearray(pck.data))
 		except:
 			print "Ocorreu um erro ao enviar o pacote"

@@ -1,3 +1,5 @@
+from DB.connection import db_connection
+
 class Field(object):
 	null=False
 	blank=False
@@ -33,6 +35,9 @@ class Model(object):
 
 	def save(self, connection=None):
 		query = self.__update__()
+		db_connection.query(query)
+		import ipdb; ipdb.set_trace()
+		print "Hehe"
 
 	def __empty_instance(self):
 		lista= dir(self)
@@ -69,7 +74,6 @@ class Model(object):
 		fields = "".join(fields)[:-1]
 
 		query = "UPDATE " + self.table + " SET %s WHERE id='%s';" % (fields, self.pk)
-
 		return query
 		
 
