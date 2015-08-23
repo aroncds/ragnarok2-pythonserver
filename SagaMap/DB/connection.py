@@ -1,6 +1,8 @@
+# -*- coding: utf-8 -*-
+import pymysql.cursors
+
 from settings import DATABASE
 from pymysql.err import *
-import pymysql.cursors
 
 
 class Connection(object):
@@ -14,8 +16,8 @@ class Connection(object):
 				db=dbname,
 				port=port,
 				)
-		except:
-			raise BaseException("Erro")
+		except MySQLError as e:
+			raise BaseException(e)
 
 
 	def query(self, qry):
@@ -24,7 +26,7 @@ class Connection(object):
 			with self.conn.cursor() as cursor:
 				result = cursor.execute(qry)
 		except MySQLError as e:
-			print e
+			raise BaseException(e)
 
 		return result
 

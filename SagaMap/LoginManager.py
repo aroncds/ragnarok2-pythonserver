@@ -33,7 +33,7 @@ def OnIdentify(data, client):
 
 def OnMapPing(data, client):
 	pck = MapPong.MapPong()
-	pck.setSessionID(0)
+	pck.setSessionID(client.sessionID)
 	client.sendPacket(pck)
 
 def OnIdentAnswer(data, client):

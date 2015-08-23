@@ -1,4 +1,4 @@
-# -*- codign: utf-8 -*-
+# -*- coding: utf-8 -*-
 import struct 
 
 def reverseByteNumber(data, offset, length):

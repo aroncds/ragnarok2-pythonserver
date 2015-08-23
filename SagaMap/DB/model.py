@@ -1,4 +1,6 @@
+# -*- coding: utf-8 -*-
 from DB.connection import db_connection
+
 
 class Field(object):
 	null=False
@@ -26,9 +28,9 @@ class AutoID(IntField):
 
 
 class Model(object):
-	table = 'Char'
+	table = ''
 	fields = {}
-	primary_key = "charID"
+	primary_key = ''
 
 	def __init__(self):
 		self.__empty_instance()
@@ -45,8 +47,13 @@ class Model(object):
 				self.fields[key] = prop
 				setattr(self, key, None)
 
+	def get_pk(self):
+		if(hasattr(self, self.primary_key)):
+			return getattr(self, self.primary_key, None)
+		return None
+
 	def __query__select(self):
-		id = getattr(self, self.primary_key, '')
+		id = self.get_pk()
 		query = "SELECT * FROM `%s` WHERE `%s`=%s" % (self.table, self.primary_key, id)
 
 	def __self_select__(self):
@@ -82,7 +89,18 @@ class Model(object):
 		
 	def delete(self):
 		query = "DELETE FROM " + self.table + " WHERE id='%s'" % self.pk
-		
+
+
+class RelatedModel(object):
+	dst_model = None
+	src_model = None
+
+	def __init__(self, model):
+		self.dst_model = model
+
+	def set_src_model(self, model):
+		pass
+
 
 class ManagerModel(object):
 	_model = None
@@ -100,7 +118,10 @@ class ManagerModel(object):
 			model = self._model()
 			for key, value in item:
 				if(hasattr(model, key)):
-					setattr(model, key, value) 
+					setattr(model, key, value)
+
+	def __related_model__(self):
+		pass
 
 	def __query__filter__(self, **kwargs):
 		table = self._model.table
