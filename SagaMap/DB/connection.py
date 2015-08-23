@@ -15,6 +15,7 @@ class Connection(object):
 				password=password,
 				db=dbname,
 				port=port,
+				cursorclass=pymysql.cursors.DictCursor,
 				)
 		except MySQLError as e:
 			raise BaseException(e)
@@ -24,7 +25,8 @@ class Connection(object):
 		result = None
 		try:
 			with self.conn.cursor() as cursor:
-				result = cursor.execute(qry)
+				if cursor.execute(qry):
+					result = cursor
 		except MySQLError as e:
 			raise BaseException(e)
 

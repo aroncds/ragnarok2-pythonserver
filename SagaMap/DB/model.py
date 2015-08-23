@@ -52,17 +52,28 @@ class Model(object):
 			return getattr(self, self.primary_key, None)
 		return None
 
+	def select_self(self):
+		if self.__self_select__():
+			return True
+
 	def __query__select(self):
 		id = self.get_pk()
-		query = "SELECT * FROM `%s` WHERE `%s`=%s" % (self.table, self.primary_key, id)
+		return "SELECT * FROM `%s` WHERE `%s`=%s" % (self.table, self.primary_key, id)
 
 	def __self_select__(self):
+		import time
+		start_time = time.clock()
 		query = self.__query__select()
 		result = db_connection.query(query).fetchone()
 
-		for key, item in result:
+		for key, item in result.iteritems():
 			if(hasattr(self, key)):
 				setattr(self, key, item)
+
+		end_time = time.clock() - start_time
+		print "Time: " + str(end_time)
+
+		return True
 
 	def __insert__(self):
 		fields = []

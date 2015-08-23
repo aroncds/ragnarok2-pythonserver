@@ -13,14 +13,6 @@ def OnIdentify(pck, client):
 
 	client.sendPacket(sendStart)
 
-from DB import model
-
-
-class Char(model.Model):
-	table = 'char'
-	charID = model.AutoField()
-	name = model.CharField()
-
 
 class MapClient(Client):
 	char = None
