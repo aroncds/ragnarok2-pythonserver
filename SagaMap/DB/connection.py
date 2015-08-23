@@ -22,10 +22,11 @@ class Connection(object):
 		result = None
 		try:
 			with self.conn.cursor() as cursor:
-				cursor.execute(qry)
-				result = cursor.fetchall()
+				result = cursor.execute(qry)
 		except MySQLError as e:
 			print e
+
+		return result
 
 
 db_connection = Connection(

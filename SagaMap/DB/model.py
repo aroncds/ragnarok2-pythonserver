@@ -26,9 +26,9 @@ class AutoID(IntField):
 
 
 class Model(object):
-	pk = Field
 	table = 'Char'
 	fields = {}
+	primary_key = "charID"
 
 	def __init__(self):
 		self.__empty_instance()
@@ -36,8 +36,6 @@ class Model(object):
 	def save(self, connection=None):
 		query = self.__update__()
 		db_connection.query(query)
-		import ipdb; ipdb.set_trace()
-		print "Hehe"
 
 	def __empty_instance(self):
 		lista= dir(self)
@@ -48,7 +46,16 @@ class Model(object):
 				setattr(self, key, None)
 
 	def __query__select(self):
-		query = "SELECT * FROM WHERE id=%s"
+		id = getattr(self, self.primary_key, '')
+		query = "SELECT * FROM `%s` WHERE `%s`=%s" % (self.table, self.primary_key, id)
+
+	def __self_select__(self):
+		query = self.__query__select()
+		result = db_connection.query(query).fetchone()
+
+		for key, item in result:
+			if(hasattr(self, key)):
+				setattr(self, key, item)
 
 	def __insert__(self):
 		fields = []
@@ -61,8 +68,7 @@ class Model(object):
 
 		fields = "".join(fields)[:-1]
 		values = "".join(values)[:-1]
-
-		return "INSERT INTO " + self.table + " (%s) VALUES (%s);" % (fields, values)
+		return "INSERT INTO `%s` (%s) VALUES (%s);" % (self.table, fields, values)
 
 	def __update__(self):
 		fields = []
@@ -72,11 +78,34 @@ class Model(object):
 			fields.append(" `%s`='%s'," % (key, v))
 
 		fields = "".join(fields)[:-1]
-
-		query = "UPDATE " + self.table + " SET %s WHERE id='%s';" % (fields, self.pk)
-		return query
+		return "UPDATE `%s` SET%s WHERE id='%s';" % (self.table, fields, self.pk)
 		
-
 	def delete(self):
 		query = "DELETE FROM " + self.table + " WHERE id='%s'" % self.pk
 		
+
+class ManagerModel(object):
+	_model = None
+
+	def __init__(self, model):
+		self._model = model
+
+
+	def filter(self, **kwargs):
+		results = []
+		query = self.__query__filter__(**kwargs)
+		result = db_connection.query(query).fetchall()
+
+		for item in result:
+			model = self._model()
+			for key, value in item:
+				if(hasattr(model, key)):
+					setattr(model, key, value) 
+
+	def __query__filter__(self, **kwargs):
+		table = self._model.table
+		lista = []
+		for key, item in kwargs:
+			lista.append("`%s`='%s' AND " % (key, item))
+		prop = "".join(lista)[:-5]
+		return "SELECT * FROM `%s` WHERE %s" % (table, prop) 

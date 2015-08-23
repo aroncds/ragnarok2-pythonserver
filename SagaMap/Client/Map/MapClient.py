@@ -13,9 +13,15 @@ def OnIdentify(pck, client):
 
 	client.sendPacket(sendStart)
 
+from DB import model
 
-from DB.model import Model
 
 class Char(model.Model):
+	table = 'char'
 	charID = model.AutoField()
-	name = model.CharField({"max_length": 100})
+	name = model.CharField()
+
+
+class MapClient(Client):
+	char = None
+	status = ""
