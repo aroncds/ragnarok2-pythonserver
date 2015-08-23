@@ -1,13 +1,5 @@
 from Packet import Packet
 
-def OnPacketData(id, data, client, dict_packet):
-	if id in dict_packet:
-		packet_class = dict_packet[id]['class']()
-		packet_class.data = data
-		packet = dict_packet[id]['function'](packet_class, client)
-	else:
-		print "Unknow package ID: " + str(id) + " \n with data length: " + str(len(data))
-
 
 class Client(object):
 	sessionID = 0
@@ -22,5 +14,13 @@ class Client(object):
 				pck.setSessionID(self.sessionID)
 				self.connection.send(bytearray(pck.data))
 		except:
-			print "Ocorreu um erro ao enviar o pacote"
+			print("Ocorreu um erro ao enviar o pacote")
 
+
+	def OnPacketData(self, id_packet, data, dict_packet):
+		if id_packet in dict_packet:
+			packet_class = dict_packet[id_packet]['class']()
+			packet_class.data = data
+			dict_packet[id_packet]['function'](self, packet_class)
+		else:
+			print("Unknow package ID: " + str(id_packet) + " with data length: " + str(len(data)))

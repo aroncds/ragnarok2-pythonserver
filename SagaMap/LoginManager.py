@@ -9,7 +9,7 @@ StaticKey = [
 	0xB8, 0xA3, 0xB0, 0xDA, 0xC1, 0xF6, 0x24, 0x00
 ]
 
-def OnSendKey(data, client):
+def OnSendKey(client, data):
 	key = data.getKey()
 
 	serverPck = ServerKey.SendKey()
@@ -20,7 +20,7 @@ def OnSendKey(data, client):
 	
 	client.sendPacket(serverPck)
 
-def OnIdentify(data, client):
+def OnIdentify(client, data):
 	import settings
 	pck = Identify.Identify()
 	pck.setLoginPassword(settings.LOGIN_PASSWORD)
@@ -31,10 +31,10 @@ def OnIdentify(data, client):
 
 	client.sendPacket(pck)
 
-def OnMapPing(data, client):
+def OnMapPing(client, data):
 	pck = MapPong.MapPong()
 	pck.setSessionID(client.sessionID)
 	client.sendPacket(pck)
 
-def OnIdentAnswer(data, client):
+def OnIdentAnswer(client, data):
 	erro = data.getError()

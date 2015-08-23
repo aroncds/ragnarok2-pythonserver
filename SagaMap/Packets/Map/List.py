@@ -1,6 +1,6 @@
 from Packet import Packet
 
-from Client.Map import MapClient
+from Client.Map.MapClient import MapClient
 
 from Packets.Map.Gateway.Identify import GatewayIdentify
 from Packets.Map.World import List as WorldList

@@ -66,13 +66,12 @@ class Model(object):
 		query = self.__query__select()
 		result = db_connection.query(query).fetchone()
 
-		for key, item in result.iteritems():
+		for key, item in result.items():
 			if(hasattr(self, key)):
 				setattr(self, key, item)
 
 		end_time = time.clock() - start_time
-		print "Time: " + str(end_time)
-
+		print("Time: " + str(end_time))
 		return True
 
 	def __insert__(self):

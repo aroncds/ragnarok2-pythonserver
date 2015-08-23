@@ -55,8 +55,8 @@ class Packet(object):
 		return struct.unpack("i", ddata)[0]
 
 	def getFloat(self, offset):
-		ddata = reverseByteNumber(self.data, offset, offset+4)
-		ddata = bytearray(ddata)
+		#ddata = reverseByteNumber(self.data, offset, offset+4)
+		ddata = bytearray(self.data[offset:offset+4])
 		return struct.unpack("f", ddata)[0]
 
 	def setFloat(self, offset, value):

@@ -1,11 +1,10 @@
 import socket
-import thread
 import time
 
 from Packet import Packet
 from Packets.Login.List import dict_packet
 
-from Client.Client import Client, OnPacketData
+from Client.Client import Client
 
 host = ""
 port = None
@@ -35,7 +34,7 @@ def startConnectionLoginServer():
 
 		id = pck.getPacketID()
 
-		OnPacketData(id, data, login, dict_packet)
+		login.OnPacketData(id, data, dict_packet)
 
 		end_time = time.clock() - start_time
-		print "Time: " + str(end_time)
+		print("Time: " + str(end_time))

@@ -1,21 +1,24 @@
 import socket
-import thread
+from threading import Thread
 
 import settings
 import LoginSession
 
 from Packet import Packet
+from Manager.mapclientmanager import MapClientManager
 
-print "Comecando a inicializar o servidor"
+print("Comecando a inicializar o servidor")
+mapmanager = MapClientManager()
 
 def startServer():
-	print "Iniciando conexao com servidor de Login..."
+	print("Iniciando conexao com servidor de Login...")
 
 	LoginSession.host = settings.LOGIN_HOST
 	LoginSession.port = settings.LOGIN_PORT
-	thread.start_new_thread(LoginSession.startConnectionLoginServer, ())
+	th = Thread(target=LoginSession.startConnectionLoginServer, args=[])
+	th.start()
 
-	print "Iniciando servidor de mapa"
+	print("Iniciando servidor de mapa")
 
 	tcp = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	tcp.bind((settings.HOST, settings.PORT))
@@ -23,20 +26,21 @@ def startServer():
 
 	while 1:
 		con, cliente = tcp.accept()
-		thread.start_new_thread(map_server, (con, cliente))
+		thm = Thread(target=map_server, args=[con, cliente])
+		thm.start()
 
-from Client.Client import OnPacketData, Client
+from Client.Map.MapClient import MapClient
 from Packets.Map.List import dict_packets
 def map_server(connection, client):
-	client = Client(connection)
+	local_client = MapClient(connection)
+	mapmanager.set_client(local_client)
+
 	while 1:
 		msg = connection.recv(1024)
 		pck = Packet()
 		pck.data = bytearray(msg)
 
-		OnPacketData(pck.getPacketID(), pck.data, client, dict_packets)
-
-		import ipdb; ipdb.set_trace()
+		local_client.OnPacketData(pck.getPacketID(), pck.data, dict_packets)
 
 	Thread.exit()
 
