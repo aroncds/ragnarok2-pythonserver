@@ -12,7 +12,7 @@ DATABASE = {
 	"default": {
 		"HOST": "127.0.0.1",
 		"USER": "root",
-		"PASSWORD": "mestrewq",
+		"PASSWORD": "admin",
 		"PORT": 3306,
 		"DBNAME": "ro2"
 	}

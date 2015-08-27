@@ -1,0 +1,68 @@
+from db import model
+
+
+class CharDB(model.Model):
+	table = 'char'
+	primary_key = "charID"
+
+	accountID = model.IntField()
+	charID = model.AutoID()
+	name = model.CharField()
+	face = model.CharField()
+	details = model.CharField()
+	sex = model.IntField()
+	race = model.IntField()
+	job = model.IntField()
+	cLevel = model.IntField()
+	jLevel = model.IntField()
+	cEXP = model.IntField()
+	jEXP = model.IntField()
+	pendingDeletion = model.IntField()
+	validationKey = model.IntField()
+	HP = model.IntField()
+	maxHP = model.IntField()
+	SP = model.IntField()
+	maxSP = model.IntField()
+	LC = model.IntField()
+	maxLC = model.IntField()
+	LP = model.IntField()
+	maxLP = model.IntField()
+	str = model.IntField()
+	dex = model.IntField()
+	intel = model.IntField()
+	con = model.IntField()
+	luk = model.IntField()
+	stpoints = model.IntField()
+	slots = model.CharField()
+	weaponName = model.CharField()
+	weaponType = model.IntField()
+	GMLevel = model.IntField()
+	NumShortcuts = model.IntField()
+	ShortcutIDs = model.CharField()
+	mapID = model.IntField()
+	worldID = model.IntField()
+	x = model.FloatField()
+	y = model.FloatField()
+	z = model.FloatField()
+	yaw = model.FloatField()
+	zeny = model.IntField()
+	save_map = model.IntField()
+	save_x = model.FloatField()
+	save_y = model.FloatField()
+	save_z = model.FloatField()
+	sightRange = model.IntField()
+	maxMoveRange = model.IntField()
+	state = model.IntField()
+	stance = model.IntField()
+	guild = model.IntField()
+	party = model.IntField()
+	Scenario = model.IntField()
+	online = model.IntField()
+	muted = model.IntField()
+
+	def __init__(self, charID=None):
+		super(CharDB, self).__init__()
+
+		if charID:
+			self.charID = charID
+			self.select_self()
