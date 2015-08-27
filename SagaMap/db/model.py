@@ -6,13 +6,13 @@ class Field(object):
 	null=False
 	blank=False
 	auto_increment=False
-	type_field = 'char'
+	type_field = 'varchar'
 	_field_db = True
 
 
 class CharField(Field):
 	max_length = 50
-	type_field = 'char'
+	type_field = 'varchar'
 
 
 class IntField(Field):

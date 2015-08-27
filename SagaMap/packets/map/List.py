@@ -1,9 +1,9 @@
 from packets.map.gateway.identify import GatewayIdentify
 from packets.map.world import List as WorldList
 
-from packet import Packet
-
 from client.map.mapclient import MapClient
+
+from packet import Packet
 
 
 dict_packets = {

@@ -21,10 +21,13 @@ class Client(object):
 		if id_packet in dict_packet:
 			packet_class = dict_packet[id_packet]['class']()
 			packet_class.data = data
-			dict_packet[id_packet]['function'](self, packet_class)
+			dict_packet[id_packet]['function'](
+				self,
+				packet_class
+			)
 		else:
 			print(
-				"Unknow package ID: "\
-				+ str(id_packet) + " with data length: "\
+				"Unknow package ID: " \
+				+ str(id_packet) + " with data length: " \
 				+ str(len(data))
 			)

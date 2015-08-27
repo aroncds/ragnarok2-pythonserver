@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-import pymysql.cursors
-
+from pymysql.err import MySQLError
 from settings import DATABASE
-from pymysql.err import *
+
+import pymysql.cursors
 
 
 class Connection(object):

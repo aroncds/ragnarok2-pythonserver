@@ -12,6 +12,9 @@ class MapClient(Client):
 		self.char = char
 
 	def SendStatus(self):
+		print(id(self))
+		import ipdb; ipdb.set_trace()
+
 		actor = actorplayerinfo.ActorPlayerInfo()
 		actor.setName(self.char.name)
 		actor.setActorID(self.char.charID)
@@ -20,6 +23,9 @@ class MapClient(Client):
 			self.char.y,
 			self.char.z
 		)
+
+		print self.char.name
+
 		actor.setYaw(self.char.yaw)
 		actor.setRace(self.char.race)
 		self.sendPacket(actor)
@@ -30,6 +36,8 @@ class MapClient(Client):
 		self.sessionID = pck.getGatewaySessionID()
 
 		self.char = CharDB(charID)
+
+		print(id(self))
 
 		sStart = sendstart.SendStart()
 		sStart.setMapID(self.char.mapID)
