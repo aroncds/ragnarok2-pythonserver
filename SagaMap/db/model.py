@@ -172,9 +172,12 @@ class ManagerModel(object):
 
 		for item in result:
 			model = self._model()
-			for key, value in item:
+			for key, value in item.items():
 				if(hasattr(model, key)):
 					setattr(model, key, value)
+			results.append(model)
+
+		return results
 
 	def __related_model__(self):
 		pass
@@ -182,7 +185,7 @@ class ManagerModel(object):
 	def __query__filter__(self, **kwargs):
 		table = self._model.table
 		lista = []
-		for key, item in kwargs:
+		for key, item in kwargs.items():
 			lista.append("`%s`='%s' AND " % (key, item))
-		prop = "".join(lista)[:-5]
+		prop = "".join(lista)[:-4]
 		return "SELECT * FROM `%s` WHERE %s" % (table, prop) 

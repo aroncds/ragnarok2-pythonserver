@@ -14,6 +14,7 @@ from manager.itemmanager import load_item_data
 print("Comecando a inicializar o servidor")
 
 def startServer():
+	print("Carregando Items...")
 	load_item_data()
 
 	print("Iniciando conexao com servidor de Login...")
