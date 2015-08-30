@@ -9,9 +9,13 @@ from packet import Packet
 from client.map.mapclient import MapClient
 from packets.map.List import dict_packets
 
+from manager.itemmanager import load_item_data
+
 print("Comecando a inicializar o servidor")
 
 def startServer():
+	load_item_data()
+
 	print("Iniciando conexao com servidor de Login...")
 
 	LoginSession.host = settings.LOGIN_HOST
