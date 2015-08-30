@@ -1,7 +1,9 @@
-from packets.map.world.set import actorplayerinfo, sendstart
-from decorators.status import MapLoaded
+from packets.map.world.set import actorplayerinfo, sendstart, charstatus
+from manager.mapclientmanager import mapmanager
 from db.models.char import CharDB
 from client.client import Client
+from .mapclient_map import *
+from .mapclient_items import *
 
 
 class MapClient(Client):
@@ -11,43 +13,21 @@ class MapClient(Client):
 	def setChar(self, char):
 		self.char = char
 
-	def SendStatus(self):
-		print(id(self))
-		import ipdb; ipdb.set_trace()
 
-		actor = actorplayerinfo.ActorPlayerInfo()
-		actor.setName(self.char.name)
-		actor.setActorID(self.char.charID)
-		actor.setLocation(
-			self.char.x,
-			self.char.y,
-			self.char.z
-		)
+def OnIdentify(client, pck):
+	charID = pck.getCharID()
+	
+	client.sessionID = pck.getGatewaySessionID()
 
-		print self.char.name
+	client.char = CharDB(charID)
 
-		actor.setYaw(self.char.yaw)
-		actor.setRace(self.char.race)
-		self.sendPacket(actor)
+	sStart = sendstart.SendStart()
+	sStart.setMapID(client.char.mapID)
+	sStart.setLocation(
+		client.char.x,
+		client.char.y,
+		client.char.z
+	)
 
-	def OnIdentify(self, pck):
-		charID = pck.getCharID()
-		
-		self.sessionID = pck.getGatewaySessionID()
-
-		self.char = CharDB(charID)
-
-		print(id(self))
-
-		sStart = sendstart.SendStart()
-		sStart.setMapID(self.char.mapID)
-		sStart.setLocation(
-			self.char.x,
-			self.char.y,
-			self.char.z
-		)
-
-		self.sendPacket(sStart)
-
-	def OnSendMapLoaded(self, pck):
-		self.SendStatus()
+	mapmanager.set_client(client)
+	client.sendPacket(sStart)

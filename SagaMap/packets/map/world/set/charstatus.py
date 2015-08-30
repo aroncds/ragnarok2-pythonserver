@@ -32,4 +32,4 @@ class CharStatus(Packet):
 		self.data[28] = max
 
 	def setVisibleField(self, u):
-		self.setUShort(34, u)
+		self.setUShort(33, u)

@@ -24,3 +24,29 @@ class ActorPlayerInfo(Packet):
 
 	def setRace(self, race):
 		self.data[62] = race
+
+	def setFace(self, face):
+		for i in range(5):
+			self.data[63+i] = face[i]
+
+	def setDetails(self, details):
+		for i in range(6):
+			self.data[68 + i] = details[i]
+
+	def setPrimaryWeaponIndex(self, v):
+	    self.data[74] = v
+
+	def setSecondaryWeaponIndex(self, v):
+	    this.data[75] = v;
+
+	def setActiveWeaponIndex(self, v):
+	    self.data[76] = v
+
+	def setInventoryContainerSize(self, v):
+		self.data[77] = v
+
+	def setStorageContainerSize(self, v):
+		self.data[78] = v
+
+	def setSlotsWeaponUnlocked(self, v):
+	    self.data[79] = v

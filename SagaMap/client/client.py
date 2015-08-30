@@ -3,16 +3,25 @@ from packet import Packet
 
 class Client(object):
 	sessionID = 0
-	connection = None
+	__connection = None
 
 	def __init__(self, connection):
 		self.connection = connection
+
+	@property
+	def connection(self):
+		return self.__connection
+
+	@connection.setter
+	def connection(self, value):
+		self.__connection = value
+
 
 	def sendPacket(self, pck):
 		try:
 			if(self.connection):
 				pck.setSessionID(self.sessionID)
-				self.connection.send(bytearray(pck.data))
+				self.__connection.send(bytearray(pck.data))
 		except:
 			print("Ocorreu um erro ao enviar o pacote")
 

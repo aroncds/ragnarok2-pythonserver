@@ -60,12 +60,8 @@ class Packet(object):
 		return struct.unpack("f", ddata)[0]
 
 	def setFloat(self, offset, value):
-		ddata = struct.pack("f", value)
-		ddata = bytearray(ddata)
-		self.data[offset] = ddata[3]
-		self.data[offset+1] = ddata[2]
-		self.data[offset+2] = ddata[1]
-		self.data[offset+3] = ddata[0]
+		dvalue = int(value * 1000)
+		self.setUInt(offset, value)
 
 	def setUShort(self, offset, value):
 		ddata = struct.pack("H", value)
@@ -103,3 +99,16 @@ class Packet(object):
 		length = length if le >= length else le
 		for i in range(length):
 			self.data[offset + i] = data[i]
+
+	def setStringArrayResize(self, data, offset, length):
+		buffer = self.data
+		lenf = len(buffer) + length
+		ddata = [0] * lenf
+
+		for i,v in enumerate(buffer):
+			ddata[i] = v
+
+		self.data = ddata
+		self.size = lenf
+		self.setLength()
+		self.setString(data, offset, length)
