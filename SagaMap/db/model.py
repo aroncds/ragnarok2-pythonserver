@@ -39,12 +39,11 @@ class ByteArrayField(Field):
 	type_field = 'byte'
 
 	def convert(self, value):
-		import struct
-		b = [0] * (len(value) / 2);
+		length = len(value) / 2
+		b = [0] * (length);
 
-		for i in range(len(value) / 2):
+		for i in range(length):
 			index = i * 2
-			teste = value[index:index+2]
 			b[i] = value[index:index+2].decode("hex")
 
 		return b
