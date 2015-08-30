@@ -32,7 +32,6 @@ def startServer():
 
 def map_server(connection, client):
 	local_client = MapClient(connection)
-	print "ahsdas"
 
 	while 1:
 		msg = connection.recv(1024)

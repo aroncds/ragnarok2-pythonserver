@@ -61,7 +61,7 @@ class Packet(object):
 
 	def setFloat(self, offset, value):
 		dvalue = int(value * 1000)
-		self.setUInt(offset, value)
+		self.setUInt(offset, dvalue)
 
 	def setUShort(self, offset, value):
 		ddata = struct.pack("H", value)

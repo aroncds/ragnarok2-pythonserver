@@ -30,7 +30,7 @@ def SendStatus(client):
 	actor.setInventoryContainerSize(100)
 	actor.setStorageContainerSize(100)
 	actor.setSlotsWeaponUnlocked(1)
-	print actor.data
+	
 	client.sendPacket(actor)
 
 def SendCharStatus(client):
