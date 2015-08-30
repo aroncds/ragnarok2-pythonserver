@@ -9,18 +9,45 @@ class Field(object):
 	type_field = 'varchar'
 	_field_db = True
 
+	def convert(self, value):
+		pass
+
 
 class CharField(Field):
 	max_length = 50
 	type_field = 'varchar'
 
+	def convert(self, value):
+		return str(value)
+
 
 class IntField(Field):
 	type_field = 'int'
 
+	def convert(self, value):
+		return int(value)
+
 
 class FloatField(Field):
 	type_field = 'float'
+
+	def convert(self, value):
+		return float(value)
+
+
+class ByteArrayField(Field):
+	type_field = 'byte'
+
+	def convert(self, value):
+		import struct
+		b = [0] * (len(value) / 2);
+
+		for i in range(len(value) / 2):
+			index = i * 2
+			teste = value[index:index+2]
+			b[i] = value[index:index+2].decode("hex")
+
+		return b
 
 
 class AutoID(IntField):
@@ -71,8 +98,8 @@ class Model(object):
 		result = db_connection.query(query).fetchone()
 
 		for key, item in result.items():
-			if(hasattr(self, key)):
-				setattr(self, key, item)
+			if(hasattr(self, key) and key in self.fields):
+				setattr(self, key, self.fields[key].convert(item))
 
 		end_time = time.clock() - start_time
 		print("Time: " + str(end_time))
