@@ -22,8 +22,8 @@ class Client(object):
 			if(self.connection):
 				pck.setSessionID(self.sessionID)
 				self.__connection.send(bytearray(pck.data))
-		except:
-			print("Ocorreu um erro ao enviar o pacote")
+		except Exception as e:
+			print("Ocorreu um erro ao enviar o pacote: %s" % e)
 
 
 	def OnPacketData(self, id_packet, data, dict_packet):

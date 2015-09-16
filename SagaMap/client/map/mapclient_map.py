@@ -11,7 +11,6 @@ def OnSendMapLoaded(client, pck):
 	SendStatus(client)
 	SendCharStatus(client)
 	SendZeny(client)
-	SendChatRed(client, "asdsadssa")
 	SendMapInfo(client, None)
 
 def SendStatus(client):

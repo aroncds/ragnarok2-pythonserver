@@ -1,5 +1,5 @@
 import socket
-import thread
+from threading import Thread 
 
 import settings
 import loginsession as LoginSession
@@ -21,8 +21,8 @@ def startServer():
 
 	LoginSession.host = settings.LOGIN_HOST
 	LoginSession.port = settings.LOGIN_PORT
-	thread.start_new_thread(LoginSession.startConnectionLoginServer, ())
-
+	te = Thread(target=LoginSession.startConnectionLoginServer, args=[])
+	te.start()
 	print("Iniciando servidor de mapa")
 
 	tcp = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -31,7 +31,8 @@ def startServer():
 
 	while 1:
 		con, cliente = tcp.accept()
-		thread.start_new_thread(map_server, (con, cliente))
+		th = Thread(target=map_server, args=[con, cliente])
+		th.start()
 
 	tcp.close()
 

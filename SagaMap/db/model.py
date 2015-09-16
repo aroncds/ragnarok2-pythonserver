@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from db.connection import db_connection
+import struct
 
 
 class Field(object):
@@ -39,12 +40,16 @@ class ByteArrayField(Field):
 	type_field = 'byte'
 
 	def convert(self, value):
-		length = len(value) / 2
+		length = int(len(value) / 2)
+
 		b = [0] * (length);
 
 		for i in range(length):
 			index = i * 2
-			b[i] = value[index:index+2].decode("hex")
+			b[i] = struct.unpack(
+				'b',
+				bytes.fromhex(value[index:index+2])
+			)[0]
 
 		return b
 
@@ -127,7 +132,7 @@ class Model(object):
 
 		for key in self.fields.keys():
 			v = getattr(self, key, '')
-			fields.append(" `%s`='%s'," % (keysey, v))
+			fields.append(" `%s`='%s'," % (key, v))
 
 		fields = "".join(fields)[:-1]
 		return "UPDATE `%s` SET%s WHERE id='%s';" % (
