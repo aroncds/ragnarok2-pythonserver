@@ -2,6 +2,9 @@ from packets.map.world.set import actorplayerinfo, sendstart, charstatus
 from manager.mapclientmanager import mapmanager
 from db.models.char import CharDB
 from client.client import Client
+
+from actors.actorpc import ActorPlayer
+
 from .mapclient_map import *
 from .mapclient_items import *
 
@@ -19,14 +22,14 @@ def OnIdentify(client, pck):
 	
 	client.sessionID = pck.getGatewaySessionID()
 
-	client.char = CharDB(charID)
+	client.char = ActorPlayer(charID)
 
 	sStart = sendstart.SendStart()
 	sStart.setMapID(client.char.mapID)
 	sStart.setLocation(
-		client.char.x,
-		client.char.y,
-		client.char.z
+		client.char.X,
+		client.char.Y,
+		client.char.Z
 	)
 
 	mapmanager.set_client(client)

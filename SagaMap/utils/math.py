@@ -72,6 +72,6 @@ class Vector3:
 	def __eq__(self, target):
 		if(isinstance(target,Vector3)):
 			return self.X == target.X and \
-					self.Y == target.Y and \
-					self.Z == target.Z
+				   self.Y == target.Y and \
+				   self.Z == target.Z
 		return False

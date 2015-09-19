@@ -58,6 +58,57 @@ class AutoID(IntField):
 	auto_increment = True
 
 
+class RelatedModel(object):
+	dst_model = None
+	src_model = None
+
+	def __init__(self, model, **kwargs):
+		self.dst_model = model
+
+		if("related_name" in kwargs):
+			setattr(
+				self.dst_model,
+				kwargs.get('related_name'),
+				ManagerModel(model)
+			)
+
+	def set_src_model(self, model):
+		pass
+
+
+class ManagerModel(object):
+	_model = None
+
+	def __init__(self, model):
+		self._model = model
+
+
+	def filter(self, **kwargs):
+		results = []
+		query = self.__query__filter__(**kwargs)
+		result = db_connection.query(query).fetchall()
+
+		for item in result:
+			model = self._model()
+			for key, value in item.items():
+				if(hasattr(model, key)):
+					setattr(model, key, value)
+			results.append(model)
+
+		return results
+
+	def __related_model__(self):
+		pass
+
+	def __query__filter__(self, **kwargs):
+		table = self._model.table
+		lista = []
+		for key, item in kwargs.items():
+			lista.append("`%s`='%s' AND " % (key, item))
+		prop = "".join(lista)[:-4]
+		return "SELECT * FROM `%s` WHERE %s" % (table, prop) 
+
+
 class Model(object):
 	table = ''
 	fields = {}
@@ -143,54 +194,3 @@ class Model(object):
 		
 	def delete(self):
 		query = "DELETE FROM " + self.table + " WHERE id='%s'" % self.pk
-
-
-class RelatedModel(object):
-	dst_model = None
-	src_model = None
-
-	def __init__(self, model, **kwargs):
-		self.dst_model = model
-
-		if("related_name" in kwargs):
-			setattr(
-				self.dst_model,
-				kwargs.get('related_name'),
-				ManagerModel(model)
-			)
-
-	def set_src_model(self, model):
-		pass
-
-
-class ManagerModel(object):
-	_model = None
-
-	def __init__(self, model):
-		self._model = model
-
-
-	def filter(self, **kwargs):
-		results = []
-		query = self.__query__filter__(**kwargs)
-		result = db_connection.query(query).fetchall()
-
-		for item in result:
-			model = self._model()
-			for key, value in item.items():
-				if(hasattr(model, key)):
-					setattr(model, key, value)
-			results.append(model)
-
-		return results
-
-	def __related_model__(self):
-		pass
-
-	def __query__filter__(self, **kwargs):
-		table = self._model.table
-		lista = []
-		for key, item in kwargs.items():
-			lista.append("`%s`='%s' AND " % (key, item))
-		prop = "".join(lista)[:-4]
-		return "SELECT * FROM `%s` WHERE %s" % (table, prop) 

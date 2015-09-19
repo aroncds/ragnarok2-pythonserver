@@ -58,3 +58,8 @@ def SendTimeWeather(client):
 def SendMapInfo(client, map):
 	pck = showmapinfo.ShowMapInfo()
 	client.sendPacket(pck)
+
+def OnMoveStart(client, packet):
+	position = packet.getPosition()
+	acceleration = packet.getAcceleration()
+	
