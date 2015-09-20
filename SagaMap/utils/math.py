@@ -69,6 +69,16 @@ class Vector3:
 			self.Z *= target.Z
 			return self
 
+	def __div__(self, target):
+		if(isinstance(target, Vector3)):
+			self.X /= target.X
+			self.Y /= target.Y
+			self.Z /= target.Z
+		else:
+			self.X /= target
+			self.Y /= target
+			self.Z /= target
+
 	def __eq__(self, target):
 		if(isinstance(target,Vector3)):
 			return self.X == target.X and \
