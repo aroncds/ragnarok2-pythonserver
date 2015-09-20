@@ -20,6 +20,8 @@ class ActorPlayer(Actor, CharDB):
 			self.position.Y = self.y
 			self.position.Z = self.z
 
-			self.inventory = ManagerModel(Inventory).filter(charID=actorID)
-
-
+			self.inventory = [
+				item.getItem() for item in ManagerModel(Inventory).filter(
+					charID=actorID
+				)
+			]

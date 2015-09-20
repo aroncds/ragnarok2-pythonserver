@@ -9,5 +9,10 @@ def SendZeny(client):
 
 def SendListInventory(client):
 	lista = client.char.inventory
-	lenth = len(lista)
+	length = len(lista)
+	
 	pck = listinventory.ListInventory(length)
+	pck.setSortType(0)
+	pck.setListItens(lista)
+
+	client.sendPacket(pck)

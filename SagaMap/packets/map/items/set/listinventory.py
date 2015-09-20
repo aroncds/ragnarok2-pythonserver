@@ -1,15 +1,15 @@
 from packet import Packet
-from manager.itemmanager import Item
+from db.models.item import Item
 
 
 class ListInventory(Packet):
 	def __init__(self, numberItens):
-		self.data = [0] * 10 + (67*numberItens)
+		self.data = [0] * (10 + (67*numberItens))
 		self.setID(0x0502)
 		self.data[9] = numberItens
 		self.setLength()
 
-	def SetSortType(type):
+	def setSortType(self, type):
 		self.data[8] = type
 
 	def setListItens(self, lista):

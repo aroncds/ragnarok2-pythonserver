@@ -2,7 +2,7 @@ from packets.map.world.set import (
 	actorplayerinfo, sendstart, charstatus, dive, sendtime, showmapinfo
 )
 from manager.mapclientmanager import mapmanager
-from .mapclient_items import SendZeny
+from .mapclient_items import SendZeny, SendListInventory
 from .mapclient_chat import SendChatRed
 
 
@@ -12,6 +12,7 @@ def OnSendMapLoaded(client, pck):
 	SendCharStatus(client)
 	SendZeny(client)
 	SendMapInfo(client, None)
+	SendListInventory(client)
 
 def SendStatus(client):
 	actor = actorplayerinfo.ActorPlayerInfo()
