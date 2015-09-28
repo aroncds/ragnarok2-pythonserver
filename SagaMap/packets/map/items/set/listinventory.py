@@ -4,7 +4,8 @@ from db.models.item import Item
 
 class ListInventory(Packet):
 	def __init__(self, numberItens):
-		self.data = [0] * (10 + (67*numberItens))
+		self.size = (10 + (67*numberItens))
+		self.data = [0] * self.size
 		self.setID(0x0502)
 		self.data[9] = numberItens
 		self.setLength()
