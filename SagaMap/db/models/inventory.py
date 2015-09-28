@@ -1,8 +1,8 @@
 from db import model
 from manager.itemmanager import items
+import copy
 
-
-class Inventory(model.Model):
+class InventoryItem(model.Model):
 	table = 'inventory'
 	primary_key = 'id'
 
@@ -17,7 +17,7 @@ class Inventory(model.Model):
 	stone2 = model.IntField()
 
 	def getItem(self):
-		item = items.get(self.nameID, None)
+		item = copy.copy(items.get(self.nameID, None))
 		item.durability = self.durability
 		item.creatorName = self.creatorName
 		item.stone1 = self.stone1

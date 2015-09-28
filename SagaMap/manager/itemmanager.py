@@ -1,7 +1,6 @@
 from db.models.item import Item
 
 import xml.etree.ElementTree as ET
-import copy
 
 items = {}
 
@@ -15,4 +14,3 @@ def load_item_data():
 		fields = itemXML.getchildren()
 		item.set_values(fields)
 		items[item.id] = item
-	

@@ -23,6 +23,10 @@ HOSTED_MAPS = [
 	15,16,17,18,19,20,21,22,23,24,25,26,
 ]
 
+DIRECTORY_DB = "/home/aron/projetos/serverro2/DB/"
+
+ITEM_DB = "DB.xml"
+
 try:
 	from .local_settings import *
 except:

@@ -10,7 +10,7 @@ def SendZeny(client):
 def SendListInventory(client):
 	lista = client.char.inventory
 	length = len(lista)
-	
+
 	pck = listinventory.ListInventory(length)
 	pck.setSortType(0)
 	pck.setListItens(lista)
