@@ -115,27 +115,21 @@ class ManagerModel(object):
 		return "SELECT * FROM `%s` WHERE %s" % (table, prop) 
 
 
-class ModelMixin(object):
-	fields = {}
+class ModelMixin(type):
 
-	def __init__(self):
+	def __init__(self, *args, **kwargs):
 		self.__empty_instance()
+		self.objects = ManagerModel(self)
+		super(ModelMixin, self).__init__(*args, **kwargs)
 
-	@classmethod
 	def __empty_instance(self):
+		self.fields={}
 		lista= dir(self)
 		for key in lista:
 			prop = getattr(self, key, None)
 			if(hasattr(prop, '_field_db')):
 				self.fields[key] = prop
 				setattr(self, key, None)
-
-	@classmethod
-	def set_values(self, result):
-		if hasattr(result, 'items'):
-			for key, item in result.items():
-				if(hasattr(self, key) and key in self.fields):
-					setattr(self, key, self.fields[key].convert(item))
 
 
 class SQLCompiler(object):
@@ -191,7 +185,7 @@ class SQLCompiler(object):
 		)
 
 
-class Model(ModelMixin, SQLCompiler):
+class Model(SQLCompiler, metaclass=ModelMixin):
 	table = ''
 	primary_key = ''
 
@@ -211,10 +205,15 @@ class Model(ModelMixin, SQLCompiler):
 	def delete(self):
 		query = "DELETE FROM " + self.table + " WHERE id='%s'" % self.pk
 
+	def set_values(self, result):
+		if hasattr(result, 'items'):
+			for key, item in result.items():
+				if(hasattr(self, key) and key in self.fields):
+					setattr(self, key, self.fields[key].convert(item))
 
-class ModelXML(ModelMixin):
 
-	@classmethod
+class ModelXML(metaclass=ModelMixin):
+	
 	def set_values(self, fields):
 		for field in fields:
 			if hasattr(self, field.tag):
@@ -223,4 +222,3 @@ class ModelXML(ModelMixin):
 					field.tag,
 					self.fields[field.tag].convert(field.text)
 				)
-		
