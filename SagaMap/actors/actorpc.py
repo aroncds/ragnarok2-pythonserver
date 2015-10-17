@@ -4,6 +4,7 @@ from db.model import ManagerModel
 from db.models.char import CharDB
 from db.models.inventory import InventoryItem
 from db.models.weapon import Weapon
+from db.models.skills import Skill
 
 
 class Inventory(object):
@@ -34,6 +35,43 @@ class Inventory(object):
 		}
 
 
+class Skills(object):
+	_battleskills = {}
+	_livingskills = {}
+	_specialskills = {}
+
+	@property
+	def battleskills(self):
+	    return self._battleskills
+	
+	@property
+	def livingskills(self):
+	    return self._livingskills
+	
+	@property
+	def specialskills(self):
+	    return self._specialskills
+
+	@property
+	def lista(self):
+	    raise "No possible"
+
+	@lista.setter
+	def lista(self, value):
+		self._battleskills ={
+			obj.skillID:obj for obj in value if obj.type==0
+		}
+
+		self._livingskills ={
+			obj.skillID:obj for obj in value if obj.type==2
+		}
+
+		self._specialskills ={
+			obj.skillID:obj for obj in value if obj.type==3
+		}
+	
+
+
 class ActorPlayer(Actor, CharDB):
 
 	def __init__(self, actorID=None):
@@ -45,8 +83,13 @@ class ActorPlayer(Actor, CharDB):
 			self.position.Z = self.z
 
 			self.inventory = Inventory()
+			self.skills = Skills()
 
 			self.inventory.items = InventoryItem.objects.filter(
+				charID=actorID
+			)
+
+			self.skills.lista = Skill.objects.filter(
 				charID=actorID
 			)
 

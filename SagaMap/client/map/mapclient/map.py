@@ -3,10 +3,11 @@ from packets.map.world.set import (
 	actorplayerinfo, sendstart, charstatus, dive, sendtime, showmapinfo
 )
 
-from .chat import SendChatRed
 from .items import (
 	SendZeny, SendListInventory, SendListEquipment, SendWeaponList
 )
+from .skill import SendListSkill
+from .chat import SendChatRed
 
 
 def OnSendMapLoaded(client, pck):
@@ -14,10 +15,11 @@ def OnSendMapLoaded(client, pck):
 	SendStatus(client)
 	SendCharStatus(client)
 	SendZeny(client)
-	SendMapInfo(client, None)
+	#SendMapInfo(client, None)
 	SendListInventory(client)
 	SendListEquipment(client)
 	SendWeaponList(client)
+	SendListSkill(client)
 
 def SendStatus(client):
 	actor = actorplayerinfo.ActorPlayerInfo()
