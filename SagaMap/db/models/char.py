@@ -59,6 +59,11 @@ class CharDB(model.Model):
 	Scenario = model.IntField()
 	online = model.IntField()
 	muted = model.IntField()
+	WeaponSlot = model.IntField()
+	ActiveWeapon = model.IntField()
+	PrimaryWeapon = model.IntField()
+	SecondaryWeapon = model.IntField()
+	clanID = model.IntField()
 
 	def __init__(self, charID=None):
 		super(CharDB, self).__init__()

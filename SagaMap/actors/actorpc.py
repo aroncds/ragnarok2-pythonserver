@@ -3,6 +3,7 @@ from .actor import Actor
 from db.model import ManagerModel
 from db.models.char import CharDB
 from db.models.inventory import InventoryItem
+from db.models.weapon import Weapon
 
 
 class Inventory(object):
@@ -46,6 +47,10 @@ class ActorPlayer(Actor, CharDB):
 			self.inventory = Inventory()
 
 			self.inventory.items = InventoryItem.objects.filter(
+				charID=actorID
+			)
+
+			self.weapons = Weapon.objects.filter(
 				charID=actorID
 			)
 

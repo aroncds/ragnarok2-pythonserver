@@ -1,5 +1,7 @@
 from packet import Packet
-from packets.map.items.set import sendzeny, listinventory, listequipment
+from packets.map.items.set import (
+	sendzeny, listinventory, listequipment, weaponlist
+)
 
 
 def SendZeny(client):
@@ -21,4 +23,9 @@ def SendListEquipment(client):
 	lista = client.char.inventory.equipment
 	pck = listequipment.ListEquipment()
 	pck.setEquipList(lista)
+	client.sendPacket(pck)
+
+def SendWeaponList(client):
+	pck = weaponlist.WeaponList()
+	pck.setWeapons(client.char.weapons)
 	client.sendPacket(pck)

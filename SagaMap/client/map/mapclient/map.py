@@ -1,10 +1,12 @@
+from manager.mapclientmanager import mapmanager
 from packets.map.world.set import (
 	actorplayerinfo, sendstart, charstatus, dive, sendtime, showmapinfo
 )
-from manager.mapclientmanager import mapmanager
 
-from .items import SendZeny, SendListInventory, SendListEquipment
 from .chat import SendChatRed
+from .items import (
+	SendZeny, SendListInventory, SendListEquipment, SendWeaponList
+)
 
 
 def OnSendMapLoaded(client, pck):
@@ -15,6 +17,7 @@ def OnSendMapLoaded(client, pck):
 	SendMapInfo(client, None)
 	SendListInventory(client)
 	SendListEquipment(client)
+	SendWeaponList(client)
 
 def SendStatus(client):
 	actor = actorplayerinfo.ActorPlayerInfo()
@@ -31,7 +34,10 @@ def SendStatus(client):
 	actor.setDetails(client.char.details)
 	actor.setInventoryContainerSize(100)
 	actor.setStorageContainerSize(100)
-	actor.setSlotsWeaponUnlocked(1)
+	actor.setSlotsWeaponUnlocked(client.char.WeaponSlot)
+	actor.setPrimaryWeaponIndex(client.char.PrimaryWeapon)
+	actor.setSecondaryWeaponIndex(client.char.SecondaryWeapon)
+	actor.setActiveWeaponIndex(client.char.ActiveWeapon)
 	
 	client.sendPacket(actor)
 

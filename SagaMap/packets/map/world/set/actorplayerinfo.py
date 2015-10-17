@@ -37,7 +37,7 @@ class ActorPlayerInfo(Packet):
 	    self.data[74] = v
 
 	def setSecondaryWeaponIndex(self, v):
-	    this.data[75] = v;
+	    self.data[75] = v;
 
 	def setActiveWeaponIndex(self, v):
 	    self.data[76] = v

@@ -20,3 +20,6 @@ class Weapon(model.Model):
 	slot4 = model.IntField()
 	slot5 = model.IntField()
 	slot6 = model.IntField()
+	slot7 = model.IntField()
+	slot8 = model.IntField()
+
