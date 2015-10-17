@@ -14,5 +14,5 @@ class ListInventory(Packet):
 		self.data[8] = type
 
 	def setListItens(self, lista):
-		for i, item in enumerate(lista):
+		for i, item in enumerate(lista.values()):
 			Item.serialize(self, item, 10 + i * 67)

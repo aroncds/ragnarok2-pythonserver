@@ -2,7 +2,7 @@ import socket
 from threading import Thread 
 
 import settings
-import loginsession as LoginSession
+import client.login.loginsession as LoginSession
 
 from packet import Packet
 

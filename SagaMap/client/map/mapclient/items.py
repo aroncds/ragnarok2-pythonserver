@@ -1,5 +1,5 @@
 from packet import Packet
-from packets.map.items.set import sendzeny, listinventory
+from packets.map.items.set import sendzeny, listinventory, listequipment
 
 
 def SendZeny(client):
@@ -8,11 +8,17 @@ def SendZeny(client):
 	client.sendPacket(pck)
 
 def SendListInventory(client):
-	lista = client.char.inventory
+	lista = client.char.inventory.inventory
 	length = len(lista)
 
 	pck = listinventory.ListInventory(length)
 	pck.setSortType(0)
 	pck.setListItens(lista)
 
+	client.sendPacket(pck)
+
+def SendListEquipment(client):
+	lista = client.char.inventory.equipment
+	pck = listequipment.ListEquipment()
+	pck.setEquipList(lista)
 	client.sendPacket(pck)

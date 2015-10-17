@@ -3,7 +3,7 @@ from packets.login.get import (
 )
 from packet import Packet
 
-from loginmanager import (
+from client.login.loginmanager import (
 	OnSendKey, OnIdentify, OnMapPing, OnIdentAnswer
 )
 

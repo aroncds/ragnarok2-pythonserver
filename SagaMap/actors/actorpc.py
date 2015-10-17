@@ -25,23 +25,19 @@ class Inventory(object):
 	@items.setter
 	def items(self, value):
 		self._inventory ={
-			item.nameID:item.getItem() for item in value if item.equip==-1
+			obj.nameID:obj for obj in value if obj.equip==-1
 		}
 
 		self._equipment ={
-			item.equip:item.getItem() for item in value if item.equip!=-1
+			obj.equip:obj for obj in value if obj.equip!=-1
 		}
 
 
 class ActorPlayer(Actor, CharDB):
-	skills = []
-	weapons = []
-	friends = []
-	blacklist = []
 
 	def __init__(self, actorID=None):
 		if actorID:
-			super(ActorPlayer, self).__init__(actorID)
+			CharDB.__init__(self, actorID)
 
 			self.position.X = self.x
 			self.position.Y = self.y
@@ -49,6 +45,7 @@ class ActorPlayer(Actor, CharDB):
 
 			self.inventory = Inventory()
 
-			self.inventory.items = ManagerModel(InventoryItem).filter(
+			self.inventory.items = InventoryItem.objects.filter(
 				charID=actorID
 			)
+

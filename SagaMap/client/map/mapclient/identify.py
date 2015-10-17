@@ -5,9 +5,6 @@ from client.client import Client
 
 from actors.actorpc import ActorPlayer
 
-from .mapclient_map import *
-from .mapclient_items import *
-
 
 class MapClient(Client):
 	char = None
@@ -23,7 +20,7 @@ def OnIdentify(client, pck):
 	client.sessionID = pck.getGatewaySessionID()
 
 	client.char = ActorPlayer(charID)
-
+	
 	sStart = sendstart.SendStart()
 	sStart.setMapID(client.char.mapID)
 	sStart.setLocation(

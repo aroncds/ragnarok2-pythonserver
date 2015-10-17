@@ -118,12 +118,14 @@ class ManagerModel(object):
 class ModelMixin(type):
 
 	def __init__(self, *args, **kwargs):
-		self.__empty_instance()
+		self.__construct_fields()
 		self.objects = ManagerModel(self)
 		super(ModelMixin, self).__init__(*args, **kwargs)
 
-	def __empty_instance(self):
-		self.fields={}
+	def __construct_fields(self):
+		if getattr(self, 'fields', None):
+			return None
+		self.fields = {}
 		lista= dir(self)
 		for key in lista:
 			prop = getattr(self, key, None)
@@ -141,15 +143,9 @@ class SQLCompiler(object):
 		)
 
 	def __self_select__(self):
-		import time
-		start_time = time.clock()
 		query = self.__query__select()
 		result = db_connection.query(query).fetchone()
-		
 		self.set_values(result)
-
-		end_time = time.clock() - start_time
-		print("Time: " + str(end_time))
 		return True
 
 	def __insert__(self):

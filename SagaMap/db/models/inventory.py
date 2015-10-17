@@ -15,12 +15,8 @@ class InventoryItem(model.Model):
 	durability = model.IntField()
 	stone1 = model.IntField()
 	stone2 = model.IntField()
+	dye = model.IntField()
 
-	def getItem(self):
-		item = copy.copy(items.get(self.nameID, None))
-		item.durability = self.durability
-		item.creatorName = self.creatorName
-		item.stone1 = self.stone1
-		item.stone2 = self.stone2
-		item.amount = self.amount
-		return item
+	@property
+	def item(self):
+	    return items.get(self.nameID, None)

@@ -46,20 +46,18 @@ class Item(model.ModelXML):
 	index = 0
 	dye = 0
 
-	def serialize(packet, item, index):
+	def serialize(packet, inv, index):
+		item = inv.item
 		packet.setInt(index, item.id)
 		packet.setUInt(index+4, 0)
-		packet.setString(item.creatorName, index+8, 32)
+		packet.setString(inv.creatorName, index+8, 32)
 		packet.setUInt(index + 45, 0)
 		packet.data[index+46] = item.tradeAble
-		packet.setUShort(index+47, item.durability)
+		packet.setUShort(index+47, inv.durability)
 		packet.setUInt(index+49, item.addition1)
 		packet.setUInt(index+51, item.addition2)
 		packet.setUInt(index+53, item.addition3)
 		packet.data[55] = item.index
 		packet.setUInt(index+54, item.enchantments[0])
 		packet.setUInt(index+58, item.enchantments[1])
-		packet.data[index+48] = item.dye
-
-	def clone(self):
-		return copy.copy(self)
+		packet.data[index+48] = inv.dye
