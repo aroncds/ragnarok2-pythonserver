@@ -53,7 +53,7 @@ class MapServer(MapClient, Thread):
             msg = self.connection.recv(1024)
             pck = Packet()
             pck.data = bytearray(msg)
-            self.OnPacketData(pck.getPacketID(), pck.data, dict_packets)
+            self.onpacketdata(pck.getPacketID(), pck.data, dict_packets)
 
 
 if __name__ == "__main__":
