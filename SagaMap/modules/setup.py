@@ -8,7 +8,6 @@ setup(
     author_email="aron.castro.coelho@gmail.com",
     ext_modules=[Extension(
         "calculeia",
-        sources=['pocl.c'],
-        libraries=['OpenCL']
+        sources=['pocl.c']
     )]
 )
