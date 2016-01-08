@@ -1,6 +1,7 @@
 #include <pthread.h>
 #include <Python.h>
 #include <math.h>
+#include <stdio.h>
 /*const char* calcule_distance = "__kernel
 void vec3DISTANCE(
     __global float* position,
@@ -59,11 +60,12 @@ calcule_ia(PyObject* self, PyObject* args){
             int a = 0;
 
             PyObject* mob;
-            int *pos;
+            int pos[3];
 
             for (a = 0; a < len; a++){
                 mob = PyList_GetItem(mobs, i);
-                pos = (int*)PyArg_ParseTuple(PyDict_GetItem(mob, KEY_POS), "iii", pos);
+                PyArg_ParseTuple(PyDict_GetItem(mob, KEY_POS), "iii", mob, &pos[0], &pos[1], &pos[2]);
+                printf("%d, %d, %d", pos[0], pos[1], pos[2]);
             }
         }
     }
