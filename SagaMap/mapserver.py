@@ -1,49 +1,61 @@
-import socket
-from threading import Thread 
+from socket import socket, AF_INET, SOCK_STREAM
 
-import settings
-import client.login.loginsession as LoginSession
+from multiprocessing import Process
+from threading import Thread
+
+from client.login.loginsession import LoginClient
+from client.map.mapclient import MapClient
 
 from packet import Packet
-
-from client.map.mapclient import MapClient
 from packets.map.List import dict_packets
-
 from manager.itemmanager import load_item_data
 
+from settings import HOST, PORT
+
 print("Comecando a inicializar o servidor")
+load_item_data()
 
-def startServer():
-	print("Carregando Items...")
-	load_item_data()
 
-	print("Iniciando conexao com servidor de Login...")
+class StartServer(Process):
+    def __init__(self):
+        self.threads = []
 
-	LoginSession.host = settings.LOGIN_HOST
-	LoginSession.port = settings.LOGIN_PORT
-	te = Thread(target=LoginSession.startConnectionLoginServer, args=[])
-	te.start()
-	print("Iniciando servidor de mapa")
+        self.socket = socket(AF_INET, SOCK_STREAM)
+        self.socket.bind((HOST, PORT))
+        self.socket.listen(1)
 
-	tcp = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	tcp.bind((settings.HOST, settings.PORT))
-	tcp.listen(1)
+        self.login_client = LoginClient()
+        self.login_client.start()
 
-	while 1:
-		con, cliente = tcp.accept()
-		th = Thread(target=map_server, args=[con, cliente])
-		th.start()
+        super(StartServer, self).__init__()
 
-	tcp.close()
+    def run(self):
+        while 1:
+            con, client = self.socket.accept()
+            mapserver = MapServer(con, client)
+            mapserver.start()
 
-def map_server(connection, client):
-	local_client = MapClient(connection)
+            self.threads.append(mapserver)
 
-	while 1:
-		msg = connection.recv(1024)
-		pck = Packet()
-		pck.data = bytearray(msg)
+    def __del__(self):
+        for thread in self.threads:
+            thread.stop()
 
-		local_client.OnPacketData(pck.getPacketID(), pck.data, dict_packets)
 
-startServer()
+class MapServer(MapClient, Thread):
+    def __init__(self, connection, client):
+        MapClient.__init__(self, connection)
+        Thread.__init__(self)
+        self.connected = 1
+
+    def run(self):
+        while self.connected:
+            msg = self.connection.recv(1024)
+            pck = Packet()
+            pck.data = bytearray(msg)
+            self.OnPacketData(pck.getPacketID(), pck.data, dict_packets)
+
+
+if __name__ == "__main__":
+    start_server = StartServer()
+    start_server.start()

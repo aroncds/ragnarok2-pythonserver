@@ -5,4 +5,4 @@ def SendChatRed(client, message):
 	pck.setTypeMessage(0)
 	pck.setName(client.char.name)
 	pck.setMessage(message)
-	client.sendPacket(pck)
+	client.sendpacket(pck)

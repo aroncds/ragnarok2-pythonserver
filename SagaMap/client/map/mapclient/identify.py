@@ -30,4 +30,4 @@ def OnIdentify(client, pck):
 	)
 
 	mapmanager.set_client(client)
-	client.sendPacket(sStart)
+	client.sendpacket(sStart)

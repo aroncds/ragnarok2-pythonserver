@@ -8,7 +8,7 @@ def SendListSkill(client):
 	pck = battleskill.BattleSkill(length)
 	pck.setSkills(skills.battleskills)
 
-	client.sendPacket(pck)
+	client.sendpacket(pck)
 
 	# length = len(skills.livingskills)
 	# pck = livingskill.LivingSkill()

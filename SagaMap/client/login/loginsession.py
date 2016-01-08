@@ -1,40 +1,21 @@
-import socket
-import time
+from socket import socket, AF_INET, SOCK_STREAM
+from threading import Thread
 
 from packet import Packet
-from packets.login.List import dict_packet
-
 from client.client import Client
-
-host = ""
-port = None
-key = None
-sessionID = 0
-loginServer = None
+from packets.login.List import dict_packet
+from settings import LOGIN_HOST, LOGIN_PORT
 
 
-class LoginClient(Client):
-	pass
+class LoginClient(Client, Thread):
+        def __init__(self):
+            self.connection = socket(AF_INET, SOCK_STREAM)
+            self.connection.connect(LOGIN_HOST, LOGIN_PORT)
 
-
-def startConnectionLoginServer():
-	loginServer = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	loginServer.connect((host, port))
-
-	login = LoginClient(loginServer)
-
-	while 1:
-		msg = loginServer.recv(1024)
-
-		start_time = time.clock()
-		data = bytearray(msg)
-
-		pck = Packet()
-		pck.data = data
-
-		id = pck.getPacketID()
-
-		login.OnPacketData(id, data, dict_packet)
-
-		end_time = time.clock() - start_time
-		print("Time: " + str(end_time))
+        def run(self):
+            while 1:
+                msg = self.connection.recv(1024)
+                data = bytearray(msg)
+                pck = Packet()
+                pck.data = data
+                self.onpacketdata(pck.getPacketID(), data, dict_packet)
