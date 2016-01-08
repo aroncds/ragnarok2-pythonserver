@@ -1,8 +1,9 @@
+# -*- coding:utf-8 -*-
+
+from xml.etree import ElementTree
 from weakref import weakref
 
 from db.models.item import Item
-
-import xml.etree.ElementTree as ET
 
 
 class ManagerLoadItens(object):
@@ -18,7 +19,7 @@ class ManagerLoadItens(object):
             yield item
 
     def load_item_data(self):
-        with ET.parse("../DB/itemDB.xml") as tree:
+        with ElementTree.parse("../DB/itemDB.xml") as tree:
             root = tree.getroot()
             lista = root.getchildren()
             self.lista = {item.id: item for item in self.create_item(lista)}
