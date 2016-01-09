@@ -59,3 +59,4 @@ class MapServer(MapClient, Thread):
 if __name__ == "__main__":
     start_server = StartServer()
     start_server.start()
+    start_server.join()

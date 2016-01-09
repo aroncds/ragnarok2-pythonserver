@@ -8,6 +8,17 @@ setup(
     author_email="aron.castro.coelho@gmail.com",
     ext_modules=[Extension(
         "calculeia",
-        sources=['pocl.c']
+        sources=['calculeia.c']
     )]
+)
+
+setup(
+	name="heightmap",
+	version="1.0",
+	author="Aron de Casrto",
+	author_email="aron.castro.coelho@gmail.com",
+	ext_modules=[Extension(
+		'heightmap',
+		sources=['heightmap.c']
+	)]
 )
