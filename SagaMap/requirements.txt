@@ -1,2 +1,2 @@
-pymysql==0.6.6
--e git+https://bitbucket.org/pypy/numpy.git#egg=numpy
+PyMySQL==0.6.7
+redis==2.10.5

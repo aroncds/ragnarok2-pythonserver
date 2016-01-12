@@ -27,6 +27,10 @@ DIRECTORY_DB = "/home/aron/projetos/serverro2/DB/"
 
 ITEM_DB = "DB.xml"
 
+REDIS_CONF = {
+	"unix_socket_path": "/var/run/redis/redis.sock"
+}
+
 try:
 	from .local_settings import *
 except:
