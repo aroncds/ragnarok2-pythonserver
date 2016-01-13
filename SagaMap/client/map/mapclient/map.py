@@ -1,4 +1,4 @@
-from manager.mapclientmanager import mapmanager
+# from manager.mapclientmanager import mapmanager
 
 from packets.map.world.set import (
     actorplayerinfo, sendstart, charstatus, dive, sendtime, showmapinfo

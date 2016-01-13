@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-class Item(object):
+class Item:
 
 	__slots__ = [
 		'id', 'addition', 'questitem', 'equip_type', 'type', 'price',
@@ -9,6 +9,10 @@ class Item(object):
 		'max_dur', 'unknow2', 'skill_id', 'option_id', 'req_male', 'req_clv',
 		'req_female', 'addition1', 'addition2', 'enchantments', 'index', 'dye'
 	]
+
+	def __init__(self, *args, **kwargs):
+		for key, item in kwargs.items():
+			setattr(self, key, item)
 
 	def serialize(packet, inv, index):
 		item = inv.item

@@ -1,5 +1,5 @@
 from packets.map.world.set import actorplayerinfo, sendstart, charstatus
-from manager.mapclientmanager import mapmanager
+# from manager.mapclientmanager import mapmanager
 from db.models.char import CharDB
 from client.client import Client
 
@@ -29,5 +29,5 @@ def OnIdentify(client, pck):
 		client.char.Z
 	)
 
-	mapmanager.set_client(client)
+	# mapmanager.set_client(client)
 	client.sendpacket(sStart)

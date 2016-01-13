@@ -1,5 +1,5 @@
 from db import model
-from manager.itemmanager import items
+from manager.item import items
 import copy
 
 class InventoryItem(model.Model):

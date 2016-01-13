@@ -8,7 +8,9 @@ from settings import LOGIN_HOST, LOGIN_PORT
 
 
 class LoginClient(Client, Thread):
-        def __init__(self):
+        def __init__(self, *args, **kwargs):
+            Thread.__init__(self)
+
             import time
             running = True
             self.connection = socket(AF_INET, SOCK_STREAM)

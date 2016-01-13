@@ -1,5 +1,5 @@
 from packet import Packet
-from db.models.item import Item
+from db.models.structs.item import Item
 
 
 class ListEquipment(Packet):

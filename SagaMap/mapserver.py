@@ -8,15 +8,13 @@ from client.map.mapclient import MapClient
 
 from packet import Packet
 from packets.map.List import dict_packets
-from manager.itemmanager import load_item_data
 
 from settings import HOST, PORT
 
 print("Comecando a inicializar o servidor")
-load_item_data()
 
 
-class StartServer(Process):
+class StartServer(object):
     def __init__(self):
         self.threads = []
 
@@ -42,10 +40,10 @@ class StartServer(Process):
             thread.stop()
 
 
-class MapServer(MapClient, Thread):
+class MapServer(Thread, MapClient):
     def __init__(self, connection, client):
-        MapClient.__init__(self, connection)
         Thread.__init__(self)
+        MapClient.__init__(self, connection)
         self.connected = 1
 
     def run(self):
@@ -58,5 +56,4 @@ class MapServer(MapClient, Thread):
 
 if __name__ == "__main__":
     start_server = StartServer()
-    start_server.start()
-    start_server.join()
+    start_server.run()
