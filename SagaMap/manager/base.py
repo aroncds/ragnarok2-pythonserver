@@ -8,17 +8,18 @@ from db.model import ModelMixin
 
 
 class ManagerRedis(object):
-	def __init__(self):
-		self._conn = Redis(**REDIS_CONF)
 
-	def __getitem__(self, key):
+	def __init__(self):
+		self._conn = Redis(db=self.Meta.db, **REDIS_CONF)
+
+	def __getitem__(self, key, val=None):
 		value = self._conn.get(key)
 
 		if value:
 			get_values = pickle.loads(value)
-			instance = self.Meta.model()
-			self._create_item(instance, get_values)
+			instance = self.Meta.model(**get_values)
 			return instance
+		return val
 
 	get = __getitem__
 
@@ -52,7 +53,7 @@ class ManagerMixin(object, metaclass=ModelMixin):
 		for item in lista:
 			valuesXML = item.getchildren()
 			values = self.__create_dict_item(valuesXML)
-			pipe.set(values['id'], pickle.dumps(values))
+			pipe.set(values[self.Meta.key], pickle.dumps(values))
 
 		pipe.set(self.Meta.name, True)
 		pipe.execute()
@@ -64,7 +65,5 @@ class ManagerMixin(object, metaclass=ModelMixin):
 				item[field.tag] = self.fields[field.tag].convert(field.text)
 		return item
 
-class Manager(ManagerMixin, ManagerRedis):
-	def __init__(self):
-		ManagerRedis.__init__(self)
-		ManagerMixin.__init__(self)
+class Manager(ManagerRedis, ManagerMixin):
+	pass

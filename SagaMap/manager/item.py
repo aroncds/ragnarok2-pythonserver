@@ -30,6 +30,8 @@ class ItemManager(Manager):
     req_clv = IntField()
 
     class Meta:
+        db = 0
+        key = 'id'
         name = "itemdb"
         model = Item
         dir_data = "../DB/itemDB.xml"

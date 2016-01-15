@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+ga# -*- coding: utf-8 -*-
 from db.connection import db_connection
 import struct
 
@@ -74,7 +74,7 @@ class RelatedModel(object):
 	def __init__(self, model, **kwargs):
 		self.dst_model = model
 
-		if("related_name" in kwargs):
+		if "related_name" in kwargs:
 			setattr(
 				self.dst_model,
 				kwargs.get('related_name'),
@@ -129,7 +129,7 @@ class ModelMixin(type):
 		lista= dir(self)
 		for key in lista:
 			prop = getattr(self, key, None)
-			if(hasattr(prop, '_field_db')):
+			if hasattr(prop, '_field_db'):
 				self.fields[key] = prop
 				setattr(self, key, None)
 
@@ -187,7 +187,7 @@ class Model(SQLCompiler, metaclass=ModelMixin):
 
 	@property
 	def pk(self):
-		if(hasattr(self, self.primary_key)):
+		if hasattr(self, self.primary_key):
 			return getattr(self, self.primary_key, None)
 
 	def save(self, connection=None):
