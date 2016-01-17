@@ -32,7 +32,6 @@ class StartServer(object):
             con, client = self.socket.accept()
             mapserver = MapServer(con, client)
             mapserver.start()
-
             self.threads.append(mapserver)
 
     def __del__(self):

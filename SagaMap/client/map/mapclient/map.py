@@ -1,26 +1,15 @@
 # from manager.mapclientmanager import mapmanager
-
+from packets.map.world.get import move_start
 from packets.map.world.set import (
     actorplayerinfo, sendstart, charstatus, dive, sendtime, showmapinfo
 )
+from decorators.packets import onpacket
 
 from .items import (
     SendZeny, SendListInventory, SendListEquipment, SendWeaponList
 )
 from .skill import SendListSkill
 from .chat import SendChatRed
-
-
-def OnSendMapLoaded(client, pck):
-    SendTimeWeather(client)
-    SendStatus(client)
-    SendCharStatus(client)
-    SendZeny(client)
-    #SendMapInfo(client, None)
-    SendListInventory(client)
-    SendListEquipment(client)
-    SendWeaponList(client)
-    SendListSkill(client)
 
 
 def SendStatus(client):
@@ -42,7 +31,6 @@ def SendStatus(client):
     actor.setPrimaryWeaponIndex(client.char.PrimaryWeapon)
     actor.setSecondaryWeaponIndex(client.char.SecondaryWeapon)
     actor.setActiveWeaponIndex(client.char.ActiveWeapon)
-
     client.sendpacket(actor)
 
 
@@ -58,13 +46,6 @@ def SendCharStatus(client):
     client.sendpacket(charStatus)
 
 
-def OnDiveUP(client, packet):
-    pck = dive.Dive()
-    pck.setDirection(1)
-    pck.setOxygen(client.char.LC)
-    client.sendpacket(pck)
-
-
 def SendTimeWeather(client):
     pck = sendtime.SendTime()
     pck.setTime(4, 4, 4)
@@ -77,6 +58,27 @@ def SendMapInfo(client, map):
     client.sendpacket(pck)
 
 
+@onpacket(move_start.MoveStart, 0x0302)
 def OnMoveStart(client, packet):
     position = packet.getPosition()
     acceleration = packet.getAcceleration()
+
+
+@onpacket(Packet, 0x030A)
+def OnDiveUP(client, packet):
+    pck = dive.Dive()
+    pck.setDirection(1)
+    pck.setOxygen(client.char.LC)
+    client.sendpacket(pck)
+
+
+@onpacket(Packet, 0x0301)
+def OnSendMapLoaded(client, pck):
+    SendTimeWeather(client)
+    SendStatus(client)
+    SendCharStatus(client)
+    SendZeny(client)
+    SendListInventory(client)
+    SendListEquipment(client)
+    SendWeaponList(client)
+    SendListSkill(client)

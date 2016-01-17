@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from packets import packets
 
 
 class Client(object):
@@ -26,16 +27,8 @@ class Client(object):
             print("Ocorreu um erro ao enviar o pacote: %s" % e)
 
     def onpacketdata(self, id_packet, data, dict_packet):
-        if id_packet in dict_packet:
-            packet_class = dict_packet[id_packet]['class']()
+        info_packet = packets.get(id_packet)
+        if data:
+            packet_class = info_packet['class']()
             packet_class.data = data
-            dict_packet[id_packet]['function'](
-                self,
-                packet_class
-            )
-        else:
-            print(
-                "Unknow package ID: "\
-                + str(id_packet) + " with data length: "\
-                + str(len(data))
-            )
+            info_packet['function'](self, packet_class)
