@@ -1,4 +1,4 @@
-ga# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 from db.connection import db_connection
 import struct
 
