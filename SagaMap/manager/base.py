@@ -66,4 +66,5 @@ class ManagerMixin(object, metaclass=ModelMixin):
 		return item
 
 class Manager(ManagerRedis, ManagerMixin):
-	pass
+	def __init__(self):
+		super().__init__()

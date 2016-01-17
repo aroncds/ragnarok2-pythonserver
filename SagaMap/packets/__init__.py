@@ -1,12 +1,12 @@
 # -*- coding: utf -*-
 
 
-class OnPacketList:
+class PacketList(object):
 	packets = {}
 
 	def __getitem__(self, key):
-		if key in packets:
-			return packets.get(key)
+		if key in self.packets:
+			return self.packets.get(key)
 
 		print("Pacote Desconhecido: %s" % key)
 
@@ -18,4 +18,4 @@ class OnPacketList:
 		else:
 			raise Exception("OnPacketList: Value incorreto.")
 
-packets = OnPacketList()
+packets = PacketList()

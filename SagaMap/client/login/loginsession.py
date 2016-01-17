@@ -33,4 +33,4 @@ class LoginClient(Client, Thread):
             data = bytearray(msg)
             pck = Packet()
             pck.data = data
-            self.onpacketdata(pck.getPacketID(), data, dict_packet)
+            self.onpacketdata(pck.getPacketID(), data)

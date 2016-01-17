@@ -3,6 +3,9 @@ import settings
 
 from decorators.packets import onpacket
 from packet import Packet
+from packets.login.get import (
+    sendkey as getsendkey, identanswer 
+)
 from packets.login.set import (
     sendkey, identify, mappong
 )
@@ -13,7 +16,7 @@ StaticKey = [
 ]
 
 
-@onpacket(sendkey.SendKey, 0x0201)
+@onpacket(getsendkey.SendKey, 0x0201)
 def OnSendKey(client, data):
     key = data.getKey()
     serverPck = sendkey.SendKey()
@@ -42,6 +45,6 @@ def OnMapPing(client, data):
     client.sendpacket(pck)
 
 
-@onpacket(Packet, 0xFF01)
+@onpacket(identanswer.IdentAnswer, 0xFF01)
 def OnIdentAnswer(client, data):
     erro = data.getError()

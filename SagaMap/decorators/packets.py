@@ -1,13 +1,14 @@
 import time
 from packets import packets
 
-def onpacket(func, packet, id):
-	packets[id] = {'func': func, 'class': packet}
+def onpacket(packet, id):
+	def decorator(func):
+		packets[id] = {'func': func, 'class': packet}
+		def inner (*args, **kwargs):
+			return func(*args, **kwargs)
+		return inner
+	return decorator
 
-	def inner (*args, **kwargs):
-		return func(*args, **kwargs)
-
-	return inner
 
 def check_time(func):
 	def inner(*args, **kwargs):

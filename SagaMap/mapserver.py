@@ -2,13 +2,10 @@ from socket import socket, AF_INET, SOCK_STREAM
 
 from multiprocessing import Process
 from threading import Thread
+from packet import Packet
 
 from client.login.loginsession import LoginClient
 from client.map.mapclient import MapClient
-
-from packet import Packet
-from packets.map.List import dict_packets
-
 from settings import HOST, PORT
 
 print("Comecando a inicializar o servidor")
@@ -50,7 +47,7 @@ class MapServer(Thread, MapClient):
             msg = self.connection.recv(1024)
             pck = Packet()
             pck.data = bytearray(msg)
-            self.onpacketdata(pck.getPacketID(), pck.data, dict_packets)
+            self.onpacketdata(pck.getPacketID(), pck.data)
 
 
 if __name__ == "__main__":

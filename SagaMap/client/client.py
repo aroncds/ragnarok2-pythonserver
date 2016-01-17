@@ -26,9 +26,9 @@ class Client(object):
         except Exception as e:
             print("Ocorreu um erro ao enviar o pacote: %s" % e)
 
-    def onpacketdata(self, id_packet, data, dict_packet):
+    def onpacketdata(self, id_packet, data):
         info_packet = packets.get(id_packet)
         if data:
             packet_class = info_packet['class']()
             packet_class.data = data
-            info_packet['function'](self, packet_class)
+            info_packet['func'](self, packet_class)
