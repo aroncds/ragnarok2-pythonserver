@@ -1,6 +1,6 @@
 from db import model
 from manager.item import items
-import copy
+
 
 class InventoryItem(model.Model):
 	table = 'inventory'
