@@ -1,6 +1,6 @@
-# Servidor - Ragnarok 2 The Gate of the World 
+# Server Python - Ragnarok 2 The Gate of the World 
 
-Nova versão do servidor sendo construida com python!
+New version of the server in python.
 
 SagaMap - 15%
 
